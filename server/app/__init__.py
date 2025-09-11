@@ -1,6 +1,6 @@
 from flask import Flask
 
-from .extensions import db, migrate, login_manager, api, cors, toolbar
+from .extensions import db, migrate, login_manager, api, cors, toolbar, babel
 from .admin import manager
 from config import settings
 
@@ -31,15 +31,16 @@ def initialize_extensions(app):
     cors.init_app(app)
     manager.init_app(app)
     api.init_app(app)
+    babel.init_app(app)
     
     if app.debug:
         toolbar.init_app(app)
     
     
 def register_views(app):
-    from .controllers import index
+    from .controllers import login
     
-    app.add_url_rule('/', view_func=index, methods=['GET'])
+    app.add_url_rule('/auth', view_func=login, methods=['POST'])
     
     
 def register_namespaces(api):

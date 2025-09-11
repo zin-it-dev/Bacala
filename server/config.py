@@ -11,6 +11,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or secrets.token_hex()
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     FLASK_ADMIN_SWATCH = 'lux'
+    CSRF_ENABLED = True
     
     
 class DevelopmentConfig(Config):
@@ -32,7 +33,8 @@ class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
+    WTF_CSRF_ENABLED = True
+
 
 class TestingConfig(Config):
     TESTING = True

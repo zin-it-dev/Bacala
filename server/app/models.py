@@ -1,14 +1,23 @@
-from sqlalchemy import Column, String, Text, Float, Integer, ForeignKey
+import enum
+
+from sqlalchemy import Column, String, Text, Float, Integer, ForeignKey, Enum as SQLEnum 
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 from .mixins import ModelMixin
 
+
+class Role(enum.Enum):
+    USER = 'User'
+    ADMIN = 'Admin'
+
+
 class User(ModelMixin, UserMixin):
     username = Column(String(80), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(255))
+    role = Column(SQLEnum(Role), default=Role.USER)
     
     def __str__(self):
         return self.username
