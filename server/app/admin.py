@@ -9,7 +9,7 @@ from flask_login import current_user, logout_user
 from flask import redirect, url_for
 from werkzeug.security import generate_password_hash
 
-from .models import User, Category, Book, Author, Role
+from .models import User, Category, Book, Author, Role, Tag
 from .extensions import db
 from .actions import change_active
 from .decorators import admin_required
@@ -58,6 +58,10 @@ class CategoryView(ModelView):
 class AuthorView(ModelView):
     column_list = ['name'] + ModelView.column_list
     
+
+class TagView(ModelView):
+    column_list = ['name'] + ModelView.column_list
+    
     
 class BookView(ModelView):
     column_list = ['name', 'category'] + ModelView.column_list
@@ -80,5 +84,6 @@ manager = Admin(name='Bacala 📚', template_mode='bootstrap4')
 manager.add_view(UserView(User, db.session, category="Management"))
 manager.add_view(CategoryView(Category, db.session, category="Management"))
 manager.add_view(AuthorView(Author, db.session, category="Management"))
+manager.add_view(TagView(Tag, db.session, category="Management"))
 manager.add_view(BookView(Book, db.session, category="Management"))
 manager.add_view(FileView(path, '/static/', name='Files', category="Settings", endpoint="files"))

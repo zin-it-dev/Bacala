@@ -6,6 +6,6 @@ import com.github.zinitdev.bacala.data.local.database.entity.Category
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM category")
-    suspend fun getAll(): List<Category>
+    @Query("SELECT * FROM category WHERE is_active = 1")
+    suspend fun getCategories(): List<Category>
 }

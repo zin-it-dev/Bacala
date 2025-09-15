@@ -4,18 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.github.zinitdev.bacala.data.local.database.dao.BookDao
 import com.github.zinitdev.bacala.data.local.database.dao.CategoryDao
+import com.github.zinitdev.bacala.data.local.database.entity.Book
 import com.github.zinitdev.bacala.data.local.database.entity.Category
 
 private const val DATABASE_NAME = "bacala.db"
 private const val DATABASE_VERSION = 1
 
 @Database(
-    entities = [Category::class],
+    entities = [Category::class, Book::class],
     version = DATABASE_VERSION
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
+    abstract fun bookDao(): BookDao
 
     companion object {
         @Volatile

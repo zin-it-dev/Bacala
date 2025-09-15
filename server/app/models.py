@@ -1,10 +1,11 @@
 import enum
 
-from sqlalchemy import Column, String, Text, Float, Integer, ForeignKey, Enum as SQLEnum 
+from sqlalchemy import Column, String, Text, Float, Integer, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+from .extensions import db
 from .mixins import ModelMixin
 
 
@@ -30,12 +31,32 @@ class User(ModelMixin, UserMixin):
 
 
 class Category(ModelMixin):
-    name = Column(String(80), unique=True)
+    name = Column(String(80), unique=True, nullable=False)
     
-    books = relationship('Book', backref='category',lazy=True)
+    books = relationship('Book', backref='category', lazy=True)
     
     def __str__(self):
         return self.name
+    
+    
+book_author = db.Table(
+    'book_author',
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('author_id', Integer, ForeignKey('author.id'), primary_key=True)
+)
+    
+
+book_tag = db.Table('book_tag',
+    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True),
+    Column('tag_id', Integer, ForeignKey('tag.id'), primary_key=True)
+)
+
+
+class Tag(ModelMixin):
+    name = Column(String(50), unique=True)
+
+    def __repr__(self):
+        return f'<Tag "{self.name}">' 
     
     
 class Author(ModelMixin):
@@ -43,7 +64,7 @@ class Author(ModelMixin):
     
     def __str__(self):
         return self.name
-    
+
 
 class Book(ModelMixin):
     name = Column(String(120), unique=True)
@@ -51,6 +72,8 @@ class Book(ModelMixin):
     price = Column(Float, default=0.00)
     
     category_id = Column(Integer, ForeignKey(Category.id))
+    authors = relationship(Author, secondary=book_author, backref='books')
+    tags = relationship(Tag, secondary=book_tag, backref='books')
     
     def __str__(self):
         return self.name
