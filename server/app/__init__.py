@@ -21,6 +21,9 @@ def create_app(config_name = 'local'):
     register_views(app)
     register_namespaces(api)
     
+    # CLI
+    register_command(app)
+    
     return app
 
 
@@ -47,3 +50,9 @@ def register_namespaces(api):
     from .resources import category_ns
     
     api.add_namespace(category_ns)
+    
+    
+def register_command(app):
+    from .commands import create_superuser, seed_db
+    app.cli.add_command(create_superuser)
+    app.cli.add_command(seed_db)

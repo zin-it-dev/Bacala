@@ -12,19 +12,26 @@ class BaseRepository:
     def get_by_id(self, id):
         return self.model.query.filter_by(id=id).first()
     
+    def is_exists(self, **kwargs):
+        return self.model.query.filter_by(**kwargs).first() is not None
+    
+    def create(self, **kwargs):
+        instance = self.model(**kwargs)
+        instance.save()
+    
     
 class UserRepository(BaseRepository):
     def __init__(self):
         super().__init__(User)
         
     def create_user(self, username, email, password, **kwargs):
-        user = User(username=username, email=email, **kwargs)
+        user = self.model(username=username, email=email, **kwargs)
         user.set_password(password)
         user.save()
         return user
     
     def check_login(self, email, password):
-        user = User.query.filter(User.email.__eq__(email)).first()
+        user = self.model.query.filter_by(email=email).first()
         return user if user and user.check_password(password=password) else None
     
     

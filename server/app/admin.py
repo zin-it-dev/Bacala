@@ -22,7 +22,7 @@ class SecureView(BaseView):
         return current_user.is_authenticated and current_user.role.__eq__(Role.ADMIN)
 
 
-class ModelView(BaseModelView):
+class ModelView(BaseModelView, SecureView):
     column_list = ['active', 'date_created']
     form_base_class = SecureForm
     column_filters = ['active']
@@ -87,3 +87,6 @@ manager.add_view(AuthorView(Author, db.session, category="Management"))
 manager.add_view(TagView(Tag, db.session, category="Management"))
 manager.add_view(BookView(Book, db.session, category="Management"))
 manager.add_view(FileView(path, '/static/', name='Files', category="Settings", endpoint="files"))
+manager.add_view(
+    LogoutView(name="Log Out", category="Settings", endpoint="logout")
+)

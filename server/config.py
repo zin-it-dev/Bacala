@@ -12,6 +12,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     FLASK_ADMIN_SWATCH = 'lux'
     CSRF_ENABLED = True
+    EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     
     
 class DevelopmentConfig(Config):

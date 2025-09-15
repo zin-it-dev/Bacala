@@ -1,4 +1,4 @@
-import hashlib
+import hashlib, json, os.path as op
 
 from flask import request, session
 
@@ -12,3 +12,9 @@ def get_locale():
     if request.args.get("lang"):
         session["lang"] = request.args.get("lang")
     return session.get("lang", "en")
+
+
+def load_json(file_name):
+    path = op.join(op.abspath(op.dirname(__file__)), 'data', f'{file_name}.json')
+    with open(path, 'r', encoding='utf-8') as file:
+        return json.load(file)
