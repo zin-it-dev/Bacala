@@ -1,3 +1,6 @@
+import firebase_admin
+
+from firebase_admin import credentials
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -12,6 +15,20 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 cors = CORS(resources={r'/*': {'origins': '*'}})
-api = Api(version='1.0', title='Bacala APIs 📚', description='', doc='/')
+api = Api(
+    version='1.0', 
+    title='Bacala APIs 📚', 
+    description=(
+        "📚 Read and share books 📖👐\n"
+        "📍 A platform to explore books, manage a personal library, and share reviews with the community 🐧"
+    ), 
+    doc='/',
+    contact="zin.it.dev@gmail.com",
+    contact_email="zin.it.dev@gmail.com",
+    license="MIT License",
+    terms_url="https://www.google.com/policies/terms/"
+)
 toolbar = DebugToolbarExtension()
 babel = Babel(locale_selector=get_locale)
+cred = credentials.Certificate("")
+firebase_admin.initialize_app(cred)

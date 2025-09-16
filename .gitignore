@@ -181,3 +181,4 @@ dist-ssr/
 .externalNativeBuild
 .cxx
 local.properties
+google-services.json
