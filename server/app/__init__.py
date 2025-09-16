@@ -1,6 +1,6 @@
 from flask import Flask
 
-from .extensions import db, migrate, login_manager, api, cors, toolbar, babel
+from .extensions import db, migrate, login_manager, api, cors, toolbar, babel, mail, cache, redis_client
 from .admin import manager
 from config import settings
 
@@ -10,6 +10,8 @@ def create_app(config_name = 'local'):
     app.config.from_object(settings[config_name])
     
     initialize_extensions(app)
+    
+    redis_client.ping()
     
     from .repositories import UserRepository
         
@@ -35,6 +37,8 @@ def initialize_extensions(app):
     manager.init_app(app)
     api.init_app(app)
     babel.init_app(app)
+    mail.init_app(app)
+    cache.init_app(app)
     
     if app.debug:
         toolbar.init_app(app)
@@ -47,9 +51,10 @@ def register_views(app):
     
     
 def register_namespaces(api):
-    from .resources import category_ns
+    from .resources import category_ns, book_ns
     
     api.add_namespace(category_ns)
+    api.add_namespace(book_ns)
     
     
 def register_command(app):

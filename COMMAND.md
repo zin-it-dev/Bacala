@@ -33,7 +33,7 @@ docker-compose down -v
 Create superuser
 
 ```bash
-docker-compose exec flask createsuperuser <email> <username>
+docker-compose exec flask flask createsuperuser <email> <username>
 ```
 
 Unittest
@@ -53,4 +53,13 @@ Fixtures data seed
 
 ```bash
 docker-compose exec flask flask seed
+```
+
+Redis
+
+```bash
+docker exec -it redis redis-cli
+
+# GET
+KEYS *
 ```

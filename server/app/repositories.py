@@ -1,6 +1,6 @@
 from flask_sqlalchemy.model import Model
 
-from .models import Category, User
+from .models import Category, User, Book
 
 class BaseRepository:
     def __init__(self, model: Model):
@@ -38,3 +38,19 @@ class UserRepository(BaseRepository):
 class CategoryRepository(BaseRepository):
     def __init__(self):
         super().__init__(Category)
+        
+        
+class BookRepository(BaseRepository):
+    def __init__(self):
+        super().__init__(Book)
+        
+    def get_all(self, page=1, page_size=None):
+        queries = self.model.query.filter(self.model.active.__eq__(True))
+        
+        paginator = queries.paginate(page=page, per_page=page_size)
+        
+        return dict(
+            results=paginator.items,
+            count=paginator.total,
+            page_size=paginator.per_page,
+        )

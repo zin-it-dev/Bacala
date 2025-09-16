@@ -13,6 +13,15 @@ class Config:
     FLASK_ADMIN_SWATCH = 'lux'
     CSRF_ENABLED = True
     EMAIL_REGEX = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    MAIL_SERVER = 'sandbox.smtp.mailtrap.io'
+    MAIL_PORT = 2525
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
+    CACHE_TYPE = 'RedisCache'
+    CACHE_REDIS_URL = os.environ.get('REDIS_URL')
     
     
 class DevelopmentConfig(Config):
@@ -28,6 +37,8 @@ class DevelopmentConfig(Config):
     )
     SQLALCHEMY_DATABASE_URI = url_object
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    MAIL_SUPPRESS_SEND = False
+    SQLALCHEMY_RECORD_QUERIES = True
     
     
 class ProductionConfig(Config):

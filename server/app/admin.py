@@ -51,7 +51,7 @@ class UserView(ModelView):
 
 
 class CategoryView(ModelView):
-    column_list = ['name'] + ModelView.column_list
+    column_list = ['name', 'books'] + ModelView.column_list
     column_editable_list = ["name"] + ModelView.column_editable_list
     
     

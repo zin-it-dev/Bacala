@@ -1,4 +1,4 @@
-import firebase_admin
+import firebase_admin, redis
 
 from firebase_admin import credentials
 from flask_sqlalchemy import SQLAlchemy
@@ -7,7 +7,10 @@ from flask_cors import CORS
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_babel import Babel
+from flask_mail import Mail
+from flask_caching import Cache
 
+from config import Config
 from .apis import Api
 from .utils import get_locale
 
@@ -30,5 +33,8 @@ api = Api(
 )
 toolbar = DebugToolbarExtension()
 babel = Babel(locale_selector=get_locale)
-cred = credentials.Certificate("")
-firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate()
+# firebase_admin.initialize_app(cred)
+mail = Mail()
+cache = Cache()
+redis_client =  redis.from_url(Config.CACHE_REDIS_URL)
