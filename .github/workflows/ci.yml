@@ -17,6 +17,10 @@ jobs:
       MYSQL_PASSWORD: mypassword
       MYSQL_HOST: db
       MYSQL_PORT: 3306
+      REDIS_URL: redis://redis:6379/0
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_DEFAULT_SENDER: zin.it.dev@gmail.com
     strategy:
       fail-fast: false
       max-parallel: 4

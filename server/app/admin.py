@@ -13,6 +13,7 @@ from .models import User, Category, Book, Author, Role, Tag
 from .extensions import db
 from .actions import change_active
 from .decorators import admin_required
+from .widgets import CKTextAreaField
 
 path = op.join(op.dirname(__file__), 'static')
 
@@ -64,6 +65,9 @@ class TagView(ModelView):
     
     
 class BookView(ModelView):
+    extra_js = ["//cdn.ckeditor.com/4.6.0/full-all/ckeditor.js"]
+    form_overrides = {"description": CKTextAreaField}
+    
     column_list = ['name', 'category'] + ModelView.column_list
     
     
