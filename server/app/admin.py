@@ -81,6 +81,12 @@ class LogoutView(SecureView):
     
 class FileView(FileAdmin, SecureView):
     pass
+
+
+class StatisticsView(SecureView):
+    @expose("/")
+    def index(self):
+        return self.render("admin/statistics.html")
     
     
 manager = Admin(name='Bacala 📚', template_mode='bootstrap4')
@@ -90,6 +96,9 @@ manager.add_view(CategoryView(Category, db.session, category="Management"))
 manager.add_view(AuthorView(Author, db.session, category="Management"))
 manager.add_view(TagView(Tag, db.session, category="Management"))
 manager.add_view(BookView(Book, db.session, category="Management"))
+manager.add_view(
+    StatisticsView(name="Statistics", endpoint="statistics")
+)
 manager.add_view(FileView(path, '/static/', name='Files', category="Settings", endpoint="files"))
 manager.add_view(
     LogoutView(name="Log Out", category="Settings", endpoint="logout")

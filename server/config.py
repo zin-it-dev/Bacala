@@ -51,6 +51,7 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, os.environ.get('MYSQL_DATABASE'))
+    CACHE_TYPE = 'SimpleCache'
     
     
 settings = dict(local=DevelopmentConfig, prod=ProductionConfig, testing=TestingConfig)

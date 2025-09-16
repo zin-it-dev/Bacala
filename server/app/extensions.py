@@ -1,4 +1,4 @@
-import firebase_admin, redis
+import firebase_admin
 
 from firebase_admin import credentials
 from flask_sqlalchemy import SQLAlchemy
@@ -37,4 +37,3 @@ babel = Babel(locale_selector=get_locale)
 # firebase_admin.initialize_app(cred)
 mail = Mail()
 cache = Cache()
-redis_client =  redis.from_url(Config.CACHE_REDIS_URL)
