@@ -1,9 +1,6 @@
-import About from "@/pages/About.vue";
-import Home from "@/pages/Home.vue";
-
 const routes = [
-  { path: "/", component: Home },
-  { path: "/about", component: About },
+  { path: "/", component: () => import("@/pages/Home.vue") },
+  { path: "/about", component: () => import("@/pages/About.vue") },
 ];
 
 export default routes;

@@ -12,19 +12,27 @@ const { data } = useQuery({
 <template>
   <v-app-bar :elevation="2" rounded>
     <v-app-bar-title>
-      <RouterLink
+      <router-link
         class="font-weight-bold text-decoration-none text-primary"
         to="/"
-        >Bacala 📚</RouterLink
+        >Bacala 📚</router-link
       >
     </v-app-bar-title>
 
     <v-toolbar-items>
-      <Navbar :categories="data" />
+      <navbar :categories="data" />
       <v-divider inset vertical></v-divider>
       <v-btn variant="text">
-        <RouterLink class="text-decoration-none" to="/about">About</RouterLink>
+        <router-link class="text-decoration-none" to="/about"
+          >About</router-link
+        >
       </v-btn>
+      <v-divider inset vertical></v-divider>
+      <v-btn variant="text">
+        <router-link class="text-decoration-none" to="/sign-in"
+          >Login</router-link
+        ></v-btn
+      >
     </v-toolbar-items>
 
     <template v-slot:append>

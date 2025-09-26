@@ -1,3 +1,6 @@
+import firebase_admin
+
+from firebase_admin import credentials
 from flask import Flask
 
 from .extensions import db, migrate, login_manager, api, cors, toolbar, babel, mail, cache
@@ -6,6 +9,10 @@ from config import settings
 
 def create_app(config_name = 'local'):
     """Application-factory pattern"""
+    
+    cred = credentials.Certificate('../serviceAccountKey.json')
+    firebase_admin.initialize_app(cred)
+
     app = Flask(__name__)
     app.config.from_object(settings[config_name])
     

@@ -1,6 +1,3 @@
-import firebase_admin
-
-from firebase_admin import credentials
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -33,7 +30,5 @@ api = Api(
 )
 toolbar = DebugToolbarExtension()
 babel = Babel(locale_selector=get_locale)
-# cred = credentials.Certificate()
-# firebase_admin.initialize_app(cred)
 mail = Mail()
 cache = Cache()

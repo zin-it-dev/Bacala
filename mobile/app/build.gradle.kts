@@ -65,6 +65,16 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.ui.auth)
+    implementation(libs.facebook.android.sdk)
+    implementation(libs.play.services.auth)
+
+    // Jetpack Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.frament)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
+    implementation(libs.androidx.navigation.testing)
 
     // Testing
     testImplementation(libs.junit)

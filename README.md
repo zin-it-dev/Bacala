@@ -14,8 +14,8 @@ Read and share books 📖👐
 - 💾 **MySQL** as the main SQL database.
 - 🔑 **JWT token authentication** for secure sessions.
 - 📘 **OpenAPI/Swagger** auto-generate API documentation for **Flask-RESTX**.
-- ☁️ **Cloudinary** integration for media upload & storage.
 - ✅ Tests with **Pytest**.
+- 📚 **Redis** for caching memory.
 
 ---
 
@@ -46,6 +46,7 @@ Read and share books 📖👐
 ---
 
 ### 🧩 Third-Party Integrations
+
 - ☁️ **Cloudinary** – media storage, image & video optimization.  
 - 🔥 **Firebase** – authentication, push notifications (FCM), analytics, hosting.  
 - 📫 **Email providers** (**Flask-Mail** or **MailTrap** for development, **SendGrid** for production).

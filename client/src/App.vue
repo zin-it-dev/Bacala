@@ -4,7 +4,7 @@ import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 
 <template>
   <v-app>
-    <RootLayout />
+    <root-layout />
   </v-app>
   <VueQueryDevtools />
 </template>
