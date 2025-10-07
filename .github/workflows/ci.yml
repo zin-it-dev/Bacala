@@ -21,7 +21,6 @@ jobs:
       MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       MAIL_DEFAULT_SENDER: zin.it.dev@gmail.com
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -39,6 +38,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         working-directory: ./server
+      - name: Create Firebase Service Account Key
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > firebase.json
       - name: Run Tests
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase.json
         run: pytest
         working-directory: ./server
