@@ -9,13 +9,12 @@ Read and share books 📖👐
 ### 🖥 Backend (API)
 
 - 🌶️ **Flask** with **Flask-RESTX** for the Python backend API.
-- 🧰 **SQLAlchemy (ORM)** for database interactions.
+- 🧰 **SQLAlchemy** ORM for database interactions.
 - 🔍 **Marshmallow** for data validation & serialization.
 - 💾 **MySQL** as the main SQL database.
-- 🔑 **JWT token authentication** for secure sessions.
 - 📘 **OpenAPI/Swagger** auto-generate API documentation for **Flask-RESTX**.
 - ✅ Tests with **Pytest**.
-- 📚 **Redis** for caching memory.
+- 🍪 **Redis** also supports and caching management.
 
 ---
 

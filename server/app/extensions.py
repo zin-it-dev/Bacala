@@ -1,3 +1,6 @@
+import firebase_admin, os, json
+
+from firebase_admin import credentials
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -7,9 +10,9 @@ from flask_babel import Babel
 from flask_mail import Mail
 from flask_caching import Cache
 
-from config import Config
 from .apis import Api
 from .utils import get_locale
+from config import firebase_dir
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -32,3 +35,30 @@ toolbar = DebugToolbarExtension()
 babel = Babel(locale_selector=get_locale)
 mail = Mail()
 cache = Cache()
+
+def initialize_firebase(app):
+    if os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"):
+        cred = credentials.Certificate(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
+    elif app.debug and os.path.exists(firebase_dir):
+        cred = credentials.Certificate(firebase_dir)
+    else:
+        raise EnvironmentError("Missing GOOGLE_APPLICATION_CREDENTIALS Key")
+    
+    firebase_admin.initialize_app(cred)
+        
+        
+def initialize_extensions(app):
+    from .admin import manager
+    
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
+    cors.init_app(app)
+    babel.init_app(app)
+    manager.init_app(app)
+    api.init_app(app)
+    mail.init_app(app)
+    cache.init_app(app)
+    
+    if app.debug:
+        toolbar.init_app(app)

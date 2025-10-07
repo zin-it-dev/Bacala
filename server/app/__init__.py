@@ -1,20 +1,17 @@
-import firebase_admin
-
-from firebase_admin import credentials
 from flask import Flask
 
-from .extensions import db, migrate, login_manager, api, cors, toolbar, babel, mail, cache
-from .admin import manager
 from config import settings
+from .extensions import initialize_firebase, initialize_extensions, login_manager, api
+
 
 def create_app(config_name = 'local'):
     """Application-factory pattern"""
-    
-    cred = credentials.Certificate('../serviceAccountKey.json')
-    firebase_admin.initialize_app(cred)
 
     app = Flask(__name__)
     app.config.from_object(settings[config_name])
+    
+    # Firebase
+    initialize_firebase(app)
     
     initialize_extensions(app)
     
@@ -34,26 +31,12 @@ def create_app(config_name = 'local'):
     return app
 
 
-def initialize_extensions(app):
-    db.init_app(app)
-    migrate.init_app(app, db)
-    login_manager.init_app(app)
-    cors.init_app(app)
-    manager.init_app(app)
-    api.init_app(app)
-    babel.init_app(app)
-    mail.init_app(app)
-    cache.init_app(app)
-    
-    if app.debug:
-        toolbar.init_app(app)
-    
-    
 def register_views(app):
     from .controllers import login, linechart_json
     
     app.add_url_rule('/auth', view_func=login, methods=['POST'])
     app.add_url_rule('/chart/stats', view_func=linechart_json, methods=['GET'])
+    
     
 def register_namespaces(api):
     from .resources import category_ns, book_ns
@@ -64,5 +47,6 @@ def register_namespaces(api):
     
 def register_command(app):
     from .commands import create_superuser, seed_db
+    
     app.cli.add_command(create_superuser)
     app.cli.add_command(seed_db)

@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun HomeScreen(onNavigate: () -> Unit) {
+fun HomeScreen(onNavigate: () -> Unit, onLogOut: () -> Unit) {
+    val auth = FirebaseAuth.getInstance()
+
     Column(
         modifier = Modifier
             .padding(48.dp)
@@ -22,10 +27,17 @@ fun HomeScreen(onNavigate: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Home")
-        Greeting(name = "ZIN")
+        Greeting(name = "${auth.currentUser?.email}")
+        Spacer(modifier = Modifier.height(32.dp))
+
         Button(onClick = { onNavigate() }) {
-            Text(text = "Log In")
+            Text(text = "Go to")
+        }
+        Button(onClick = {
+            auth.signOut()
+            onLogOut()
+        }) {
+            Text(text = "Log Out")
         }
     }
 }
@@ -33,5 +45,5 @@ fun HomeScreen(onNavigate: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onNavigate = {})
+    HomeScreen(onNavigate = {}, onLogOut = {})
 }

@@ -184,3 +184,4 @@ local.properties
 # Firebase
 google-services.json
 serviceAccountKey.json
+firebase.json
