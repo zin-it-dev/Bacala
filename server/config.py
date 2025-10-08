@@ -6,7 +6,7 @@ from sqlalchemy.engine.url import URL
 load_dotenv()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-firebase_dir = os.path.abspath(os.path.join(basedir, 'firebase.json'))
+firebase_dir = os.path.abspath(os.path.join(basedir, 'serviceAccountKey.json'))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or secrets.token_hex()

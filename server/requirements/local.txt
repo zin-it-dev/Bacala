@@ -1,0 +1,5 @@
+-r base.txt
+coverage==7.10.6
+Flask-DebugToolbar==0.16.0
+pytest==8.4.2
+pytest-factoryboy==2.8.1

@@ -10,15 +10,15 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends netcat-openbsd && \
+    apt-get install -y --no-install-recommends netcat-openbsd build-essential && \
     rm -rf /var/lib/apt/lists/*
 
-# Install pip requirements
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /app
 COPY . /app
+
+# Install pip requirements
+RUN pip install -r requirements/local.txt
 
 # Make entrypoints executable
 RUN chmod +x ./scripts/*.entrypoint.sh

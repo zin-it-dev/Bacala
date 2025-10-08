@@ -37,22 +37,14 @@ mail = Mail()
 cache = Cache()
 
 def initialize_firebase(app):
-    if firebase_admin._apps:
+    if firebase_admin._apps or app.testing:
         return
     
-    content = os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY") 
-    
-    if content:
-        service_account_info = json.loads(content.strip())
-        cred = credentials.Certificate(service_account_info)
-    elif app.debug and os.path.exists(firebase_dir):
+    if app.debug and os.path.exists(firebase_dir):
         cred = credentials.Certificate(firebase_dir)
-    else:
-        raise EnvironmentError("Missing GOOGLE_APPLICATION_CREDENTIALS Key")
-    
-    firebase_admin.initialize_app(cred)
+        firebase_admin.initialize_app(cred)
         
-        
+
 def initialize_extensions(app):
     from .admin import manager
     
