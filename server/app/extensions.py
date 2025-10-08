@@ -37,8 +37,14 @@ mail = Mail()
 cache = Cache()
 
 def initialize_firebase(app):
-    if os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"):
-        cred = credentials.Certificate(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
+    if firebase_admin._apps:
+        return
+    
+    content = os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY") 
+    
+    if content:
+        service_account_info = json.loads(content.strip())
+        cred = credentials.Certificate(service_account_info)
     elif app.debug and os.path.exists(firebase_dir):
         cred = credentials.Certificate(firebase_dir)
     else:
