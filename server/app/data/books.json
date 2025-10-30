@@ -1,0 +1,20 @@
+[
+  {
+    "name": "The Hidden Life of Trees",
+    "description": "Explores how trees communicate with each other.",
+    "price": 19.99,
+    "category": 2
+  },
+  {
+    "name": "Sapiens: A Brief History of Humankind",
+    "description": "A sweeping look at the history of humanity, from the Stone Age to the modern era.",
+    "price": 25.50,
+    "category": 2
+  },
+  {
+    "name": "Educated: A Memoir",
+    "description": "A story about a young woman who, kept out of school by her survivalist family, decided to pursue education.",
+    "price": 14.75,
+    "category": 2
+  }
+]

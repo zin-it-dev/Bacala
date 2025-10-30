@@ -1,5 +1,7 @@
 from flask_sqlalchemy.model import Model
+from sqlalchemy import func
 
+from .extensions import db
 from .models import Category, User, Book
 
 class BaseRepository:
@@ -38,6 +40,11 @@ class UserRepository(BaseRepository):
 class CategoryRepository(BaseRepository):
     def __init__(self):
         super().__init__(Category)
+        
+    def stats_amount_books_by_cate(self):
+        return db.session.query(self.model.id, self.model.name, func.count(Book.id))\
+            .join(Book, Book.category_id.__eq__(self.model.id), isouter=True)\
+            .group_by(self.model.id).all()
         
         
 class BookRepository(BaseRepository):

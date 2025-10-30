@@ -21,9 +21,10 @@ COPY . /app
 RUN pip install -r requirements/local.txt
 
 # Make entrypoints executable
-RUN chmod +x ./scripts/*.entrypoint.sh
+RUN chmod +x ./scripts/migrate.entrypoint.sh
+RUN sed -i 's/\r$//g' ./scripts/migrate.entrypoint.sh
 
-ENTRYPOINT ["./scripts/server.entrypoint.sh"]
+ENTRYPOINT ["./scripts/migrate.entrypoint.sh"]
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 CMD ["python", "app.py"]

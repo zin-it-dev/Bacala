@@ -1,8 +1,9 @@
 from flask import request, flash, redirect, url_for, jsonify
 from flask_login import login_user
 
-from .repositories import UserRepository
+from .repositories import UserRepository, CategoryRepository
 from .models import Role
+from .utils import generate_color
 
 
 def login():
@@ -21,24 +22,13 @@ def login():
     return redirect(url_for("admin.index"))
 
 
-def linechart_json():
-    labels = ["January", "February", "March", "April", "May", "June", "July"]
-    providers = ["Central", "Eastside", "Westside"]
-    data = [[75, 44, 92, 11, 44, 95, 35],
-                [41, 92, 18, 3, 73, 87, 92],
-                [87, 21, 94, 3, 90, 13, 65]]
-    
+def barchart_json():
+    results = CategoryRepository().stats_amount_books_by_cate()
+
     datasets = []
-    colors = ["rgba(75, 192, 192, 0.6)", "rgba(255, 99, 132, 0.6)", "rgba(54, 162, 235, 0.6)"]
-    
-    for i, provider in enumerate(providers):
-        datasets.append({
-            "label": provider,
-            "data": data[i],
-            "borderColor": colors[i % len(colors)],
-        })
-    
-    return jsonify({
-        "labels": labels,
-        "datasets": datasets
-    })
+    bgColors = [generate_color() for _ in results]
+    labels, data = [item[1] for item in results], [item[2] for item in results]
+
+    datasets.append({"label": "Amount", "data": data, "backgroundColor": bgColors})
+
+    return jsonify({"labels": labels, "datasets": datasets})
