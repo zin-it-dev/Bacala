@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val firebaseAuth = FirebaseAuth.getInstance()
         val startDestination = if (firebaseAuth.currentUser != null) {
             Screen.Home.route

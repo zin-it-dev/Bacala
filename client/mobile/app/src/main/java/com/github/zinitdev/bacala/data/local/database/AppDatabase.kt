@@ -14,7 +14,8 @@ private const val DATABASE_VERSION = 1
 
 @Database(
     entities = [Category::class, Book::class],
-    version = DATABASE_VERSION
+    version = DATABASE_VERSION,
+    exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao

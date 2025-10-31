@@ -9,7 +9,7 @@ from flask_login import current_user, logout_user
 from flask import redirect, url_for
 from werkzeug.security import generate_password_hash
 
-from .models import User, Category, Book, Author, Role, Tag
+from .models import User, Category, Book, Author, Role, Tag, Comment
 from .extensions import db
 from .actions import change_active
 from .decorators import admin_required
@@ -69,8 +69,12 @@ class BookView(ModelView):
     form_overrides = {"description": CKTextAreaField}
     
     column_list = ['name', 'category'] + ModelView.column_list
+
+
+class CommentView(ModelView):
+    column_list = ['content', 'book', 'user'] + ModelView.column_list  
     
-    
+
 class LogoutView(SecureView):
     @admin_required
     @expose("/")
@@ -96,6 +100,7 @@ manager.add_view(CategoryView(Category, db.session, category="Management"))
 manager.add_view(AuthorView(Author, db.session, category="Management"))
 manager.add_view(TagView(Tag, db.session, category="Management"))
 manager.add_view(BookView(Book, db.session, category="Management"))
+manager.add_view(CommentView(Comment, db.session, category="Management"))
 manager.add_view(
     StatisticsView(name="Statistics", endpoint="statistics")
 )

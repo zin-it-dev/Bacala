@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
 
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // Firebase
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
