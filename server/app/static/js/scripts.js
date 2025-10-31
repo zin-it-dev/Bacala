@@ -1,18 +1,17 @@
 window.onload = async () => {
-  const response = await fetch("/chart/stats");
+  const response = await fetch("/stats/amount");
   const data = await response.json();
 
-  const ctx = document.getElementById("statsChart").getContext("2d");
+  const ctx = document.getElementById("amountChart").getContext("2d");
   new Chart(ctx, {
-    type: "line",
+    type: "doughnut",
     data: {
       labels: data.labels,
       datasets: data.datasets.map((ds) => ({
-        label: ds.label,
+        label: "Amount",
         data: ds.data,
-        fill: false,
-        borderColor: ds.borderColor,
-        tension: 0.1,
+        backgroundColor: ds.backgroundColor,
+        hoverOffset: 4
       })),
     },
   });

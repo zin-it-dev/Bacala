@@ -42,3 +42,30 @@ books = api.model(
         "results": fields.List(fields.Nested(book)),
     }
 )
+
+user = api.model(
+    "User",
+    { 
+        "username": fields.String(required=True, description='The user username'),
+        "email": fields.String(required=True, description='The user email'),
+        "first_name": fields.String(required=True, description='The user first_name'),
+        "last_name": fields.String(required=True, description='The user last_name'),
+    }
+)
+
+comment = api.model(
+    "Comment",
+    {
+        **common, 
+        'content': fields.String(required=True, description='The book description'),
+        'user': fields.Nested(user, description='The book current_user')
+    }
+)
+
+comments = api.model(
+    "Comments",
+    {
+        **paginate,
+        "results": fields.List(fields.Nested(comment)),
+    }
+)

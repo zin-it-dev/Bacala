@@ -24,10 +24,6 @@ class Config:
     CACHE_TYPE = 'RedisCache'
     CACHE_REDIS_URL = os.environ.get('REDIS_URL')
     
-    
-class DevelopmentConfig(Config):
-    DEBUG = True
-    
     url_object = URL.create(
         "mysql+pymysql",
         username=os.environ.get('MYSQL_USER'),
@@ -37,6 +33,10 @@ class DevelopmentConfig(Config):
         database=os.environ.get('MYSQL_DATABASE')
     )
     SQLALCHEMY_DATABASE_URI = url_object
+    
+    
+class DevelopmentConfig(Config):
+    DEBUG = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     MAIL_SUPPRESS_SEND = False
     SQLALCHEMY_RECORD_QUERIES = True

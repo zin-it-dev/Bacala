@@ -20,6 +20,8 @@ class User(ModelMixin, UserMixin):
     password = Column(String(255))
     role = Column(SQLEnum(Role), default=Role.USER)
     
+    comments = relationship('Comment', backref='user', lazy=True)
+    
     def __str__(self):
         return self.username
     
@@ -60,7 +62,10 @@ class Tag(ModelMixin):
     
     
 class Author(ModelMixin):
+    salutation = Column(String(10))
     name = Column(String(80), unique=True)
+    email = Column(String(120), unique=True)
+    headshot = Column(String(255))
     
     def __str__(self):
         return self.name
@@ -68,12 +73,29 @@ class Author(ModelMixin):
 
 class Book(ModelMixin):
     name = Column(String(120), unique=True)
-    description = Column(Text)
+    description = Column(Text, nullable=True)
+    summary = Column(Text, nullable=True)
     price = Column(Float, default=0.00)
-    
+    stock = Column(Integer, default=30)
+
     category_id = Column(Integer, ForeignKey(Category.id))
     authors = relationship(Author, secondary=book_author, backref='books')
     tags = relationship(Tag, secondary=book_tag, backref='books')
+    comments = relationship('Comment', backref='book', lazy=True)
     
     def __str__(self):
         return self.name
+    
+    
+class Interaction(ModelMixin):
+    __abstract__ = True
+    
+    user_id = Column(Integer, ForeignKey(User.id))
+    book_id = Column(Integer, ForeignKey(Book.id))
+    
+
+class Comment(Interaction):
+    content = Column(Text)
+    
+    def __str__(self):
+        return self.content[:10]

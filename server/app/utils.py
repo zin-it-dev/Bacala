@@ -1,4 +1,4 @@
-import hashlib, json, os.path as op
+import hashlib, json, os.path as op, random
 
 from flask import request, session
 from flask_mail import Message
@@ -31,3 +31,14 @@ def send_email(to_email, subject):
         body="Hello"
     )
     mail.send(msg)
+    
+    
+def password_validator(password):
+    return len(password) >= 8
+
+
+def generate_color(alpha=1.0):
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    return f'rgba({r}, {g}, {b}, {alpha})' if alpha is not None else f'rgb({r}, {g}, {b})'
