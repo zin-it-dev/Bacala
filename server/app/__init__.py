@@ -1,51 +1,32 @@
 from flask import Flask
+from app.config import config_by_name, CONFIG_TYPE
+from app.extensions import init_apps, db
+from app.apis import api
 
-from config import settings
-from .extensions import initialize_firebase, initialize_extensions, login_manager, api
 
+def create_app(config_type=CONFIG_TYPE):
+    """
+    Application factory function.
 
-def create_app(config_name = 'local'):
-    """Application-factory pattern"""
+    Args:
+        config_type: Configuration to use (development, production, testing)
+
+    Returns:
+        Configured Flask application instance
+    """
 
     app = Flask(__name__)
-    app.config.from_object(settings[config_name])
+    app.config.from_object(config_by_name[config_type])
+    config_by_name[config_type].init_app(app)
     
-    # Firebase
-    initialize_firebase(app)
+    # Initialize extensions
+    init_apps(app)
+    api.init_app(app)
+
+    from app import models  # noqa: F401
     
-    initialize_extensions(app)
-    
-    from .repositories import UserRepository
-        
-    @login_manager.user_loader
-    def load_user(user_id):
-        return UserRepository().get_by_id(user_id)
-    
-    # APIs
-    register_views(app)
-    register_namespaces(api)
-    
-    # CLI
-    register_command(app)
-    
+    # Register error handlers
+    from app.utils.errors import register_error_handlers
+    register_error_handlers(app)
+
     return app
-
-
-def register_views(app):
-    from .controllers import login, barchart_json
-    
-    app.add_url_rule('/auth', view_func=login, methods=['POST'])
-    app.add_url_rule('/stats/amount', view_func=barchart_json, methods=['GET'])
-    
-def register_namespaces(api):
-    from .resources import category_ns, book_ns
-    
-    api.add_namespace(category_ns)
-    api.add_namespace(book_ns)
-    
-    
-def register_command(app):
-    from .commands import create_superuser, seed_db
-    
-    app.cli.add_command(create_superuser)
-    app.cli.add_command(seed_db)
